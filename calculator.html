@@ -1,0 +1,180 @@
+<html>
+    <head>
+
+        <title>
+            Simple Calculator
+        </title>
+
+    </head>
+
+    <body>
+        
+        <div class="box">
+
+            <div class="row0">
+                <output type="text" id="res" placeholder="0"></output>
+                <input type="button" class="event" value="AC" onclick="Clear()"/>
+            </div>
+
+            <div class="row">
+
+                <input type="button" class="btn" value="(" onclick="input('(')"/>
+                <input type="button" class="btn" value=")" onclick="input(')')"/>
+                <input type="button" class="btn" value="%" onclick="input('%')"/>
+                <input type="button" class="btn" value="/" onclick="input('/')"/>
+            
+                <input type="button" class="btn" value="7" onclick="input('7')"/>
+                <input type="button" class="btn" value="8" onclick="input('8')"/>
+                <input type="button" class="btn" value="9" onclick="input('9')"/>
+                <input type="button" class="btn" value="*" onclick="input('*')"/>
+
+                <input type="button" class="btn" value="4" onclick="input('4')"/>
+                <input type="button" class="btn" value="5" onclick="input('5')"/>
+                <input type="button" class="btn" value="6" onclick="input('6')"/>
+                <input type="button" class="btn" value="-" onclick="input('-')"/>
+
+                <input type="button" class="btn" value="1" onclick="input('1')"/>
+                <input type="button" class="btn" value="2" onclick="input('2')"/>
+                <input type="button" class="btn" value="3" onclick="input('3')"/>
+                <input type="button" class="btn" value="+" onclick="input('+')"/>
+
+                <input type="button" class="event" value="DEL" onclick="Delete()"/>
+                <input type="button" class="btn" value="0" onclick="input('0')"/>
+                <input type="button" class="btn" value="." onclick="input('.')"/>
+                <input type="button" class="event" value="=" onclick="Result()"/>
+
+            </div>
+
+        </div>
+
+        <script>
+
+            function input(num) {
+                var v = document.getElementById('res');
+                v.value += num;
+            }
+
+            function Result() {
+                if(document.getElementById('res').value == ''){
+                document.getElementById('res').value = '0';
+                }
+                var num1 = document.getElementById('res').value;
+                var num2 = eval(num1);
+                document.getElementById('res').value = num2;
+            }
+
+            function Clear() {
+                var inp = document.getElementById('res');
+                inp.value = '';
+            }
+
+            function Delete() {
+                var del = document.getElementById('res');
+                del.value = del.value.slice(0,-1);
+            }
+     
+        </script>
+
+
+        <style>
+
+            @font-face{
+                font-family:digital-7 ;
+                src: url('digital-7.ttf');
+            }
+
+            body{
+                background-color: rgb(172, 205, 190);
+                align-items:center;
+                justify-content: center;
+                display:flex;
+                flex-direction:column;
+                font-size: 100px;
+                user-select: none;
+                overflow: hidden;
+            }
+
+            .box{
+                background-color: rgba(184, 179, 171, 0.742);
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                row-gap: -80px;
+                position: absolute;
+                height: 320px;
+                width: 330px;
+                margin-top: 10px;
+                border-radius: 7px;
+                border-style:ridge;
+                border-width: 3px;
+                border-color: black;
+            }
+            
+
+            #res{
+                height: 35px;
+                width: 196px;
+                border-color: black;
+                border-style: solid;
+                border-radius: 4px;
+                font-size: 20px;
+                text-align: end;
+                align-content: center;
+                margin-bottom: 15px;
+                margin-top: -2px;
+                background: #fefefe;
+            }
+            
+            .row0{
+                display: grid;
+                margin-left: 50px;
+                grid-gap: 10px;
+                row-gap: 15px;
+                column-gap: 25px;
+                grid-template-columns: repeat(4,1fr);
+            }
+            .row{
+                display: grid;
+                grid-gap: 10px;
+                row-gap: 15px;
+                column-gap: 25px;
+                grid-template-columns: repeat(4,1fr);
+            }
+
+            .event{
+                width: 50px;
+                height: 35px;
+                font-size: 20px;
+                color: #2f9fff;
+                cursor: pointer;
+                border-radius: 4px;
+                border: none;
+                background: #fefefe;
+            }
+            .event:hover{
+                background-color: rgb(240, 238, 238);
+                border: solid;
+                border-color: black;  
+            }
+
+            .btn{
+                width: 50px;
+                height: 35px;
+                font-size: 20px;
+                cursor: pointer;
+                border-radius: 4px;
+                border: none;
+                background: #fefefe;
+            }
+            .btn:hover{
+                background-color: rgb(240, 238, 238);
+                border: solid;
+                border-color: black;
+            }
+
+        </style>
+
+    </body>
+    
+</html>
