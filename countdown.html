@@ -1,0 +1,280 @@
+<html>
+    <title>
+        StopWatch
+    </title>
+
+    <body>
+        <div class="container">
+            <div id="txt">
+                SET TIME
+            </div>
+
+            <div class="inp">
+                <div>
+                    <input type="number" id="hours" min="0" placeholder="Hours">
+                </div>
+                <div>
+                    <input type="number" id="minutes" min="0" placeholder="Minutes">
+                </div>
+                <div>
+                    <input type="number" id="seconds" min="0" placeholder="Seconds">
+                </div>    
+            </div>
+        </div>
+        
+
+        <div id="timer">
+            00:00:00
+        </div>
+        <div class="disp">
+            <span class="hrs">Hrs</span>
+            <span class="min">Min</span>
+            <span class="sec">Sec</span>
+        </div>
+
+        <div>
+            <button class="btn" id="start" onclick="Start()">Start</button>
+            <button class="btn" id="stop" onclick="Stop()">Stop</button>
+            <button class="btn" id="resume" onclick="Resume()">Resume</button>
+            <button class="btn" id="reset" onclick="Reset()">Reset</button>
+        </div>
+
+
+        <style>
+
+            body{
+                background-color: rgb(188, 148, 248);
+                align-items:center;
+                justify-content: center;
+                display:flex;
+                flex-direction:column;
+                font-size: 100px;
+                user-select: none;
+                overflow: hidden;
+            }
+
+            .container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background-color: #797474;
+                height: 90px;
+                width: 400px;
+                margin-top: 100px;
+                margin-bottom: -100px;
+                gap: 7px;
+            }
+
+            #txt{
+                font-size: 25px;
+                color: white;
+                align-items: center;
+            }
+
+            .inp{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                font-size: 25px;
+            }
+
+            #hours,#minutes,#seconds{
+                    width: 90px;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 15px;
+                    display: flex;
+                    flex-direction: row;
+            }
+
+            #timer{
+                display: flex;
+                justify-content: center;
+                align-items:center;
+                color: rgb(0, 0, 0);
+                gap: 5px;
+                margin-top: 160px;
+            }
+
+            .disp{
+                font-size: 30px;
+                display: flex;
+                flex-direction: row;
+                gap: 80px;
+                margin-top: -140px;
+            }
+
+            .btn{
+                width: 100px;
+                padding: 12px;
+                margin-top: 140px;
+                font-size: 18px;
+                background: #f7f7f7bb;
+                color: #050505;
+                border: none;
+                border-radius: 100px;
+                cursor: pointer;
+                transition: background 0.2s ease-out;
+            }
+
+            .btn:hover {
+                background: #c8c8c8;
+            }
+
+        </style>
+
+        <script>
+
+            let secondsLeft;
+            let countdown;
+            let display = document.getElementById('timer');
+            let start = document.getElementById('start');
+            let stop = document.getElementById('stop');
+            let resume = document.getElementById('resume');
+            let reset = document.getElementById('reset');
+
+            function timer(seconds) {
+                clearInterval(countdown);
+
+                let now = Date.now();
+                let then = now + seconds * 1000;
+                displayTimeLeft(seconds);
+
+                countdown = setInterval(() => {
+                    secondsLeft = Math.round((then - Date.now()) / 1000);
+
+                    if (secondsLeft < 0) {
+                        clearInterval(countdown);
+                        Reset();
+                        return;
+                    }
+                    displayTimeLeft(secondsLeft);
+                }, 1000);
+            }
+
+            function displayTimeLeft(seconds) {
+
+                let hours = Math.floor(seconds / 3600);
+                let minutes = Math.floor((seconds / 60)%60);
+                let remainderSeconds = seconds % 60;
+                let disp = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+                display.textContent = disp;
+            }
+        
+
+            function Start() {
+
+                if(document.getElementById('hours').value == ''){
+                    document.getElementById('hours').value = '0';
+                }
+                if(document.getElementById('minutes').value == ''){
+                    document.getElementById('minutes').value = '0';
+                }
+                if(document.getElementById('seconds').value == ''){
+                    document.getElementById('seconds').value = '0';
+                }
+
+                var hrs = parseFloat(document.getElementById('hours').value);
+                var min = parseFloat(document.getElementById('minutes').value);
+                var sec = parseFloat(document.getElementById('seconds').value);
+                
+                if(hrs<0 || min<0 || sec<0){
+                    alert('Enter Valid Time To Start');
+                    Reset();
+                }
+                else if(hrs<=0 && min<=0 && sec<=0){
+                    start.disabled = true;
+                    Reset();
+                }
+                else{
+                    hrs = hrs*3600;
+                    min = min*60;
+                    var sum = hrs + min + sec;
+                    let seconds = sum;
+                    timer(seconds);
+                    start.disabled = true;
+                    stop.disabled = false;
+                    resume.disabled = true;
+                    
+                }
+            }
+
+            function Stop() {
+
+                if(document.getElementById('hours').value == '' || document.getElementById('hours').value < 0){
+                    document.getElementById('hours').value = '0';
+                }
+                if(document.getElementById('minutes').value == '' || document.getElementById('minutes').value < 0){
+                    document.getElementById('minutes').value = '0';
+                }
+                if(document.getElementById('seconds').value == '' || document.getElementById('minutes').value < 0){
+                    document.getElementById('seconds').value = '0';
+                }
+                var hrs = parseFloat(document.getElementById('hours').value);
+                var min = parseFloat(document.getElementById('minutes').value);
+                var sec = parseFloat(document.getElementById('seconds').value);
+                
+                if(hrs==0 && min==0 && sec==0){
+                    stop.disabled = true;
+                    Reset();
+                }
+                else{
+                    clearInterval(countdown);
+                    start.disabled = false;
+                    stop.disabled = true;
+                    resume.disabled = false;
+                }
+            }
+
+            function Resume(){
+
+                if(document.getElementById('hours').value == '' || document.getElementById('hours').value < 0){
+                    document.getElementById('hours').value = '0';
+                }
+                if(document.getElementById('minutes').value == '' || document.getElementById('minutes').value < 0){
+                    document.getElementById('minutes').value = '0';
+                }
+                if(document.getElementById('seconds').value == '' || document.getElementById('minutes').value < 0){
+                    document.getElementById('seconds').value = '0';
+                }
+                var hrs = parseFloat(document.getElementById('hours').value);
+                var min = parseFloat(document.getElementById('minutes').value);
+                var sec = parseFloat(document.getElementById('seconds').value);
+                
+                if(hrs==0 && min==0 && sec==0){
+                    resume.disabled = true;
+                    Reset();
+                }
+                else{
+                    seconds = secondsLeft;
+                    timer(seconds);
+                    start.disabled = false;
+                    stop.disabled = false;
+                    resume.disabled = true;
+                }
+            }
+
+            function Reset() {
+
+                var delh = document.getElementById('hours');
+                delh.value = '';
+
+                var delm = document.getElementById('minutes');
+                delm.value = '';
+
+                var dels = document.getElementById('seconds');
+                dels.value = '';
+
+                clearInterval(countdown);
+                display.textContent = '00:00:00';
+                start.disabled = false;
+                stop.disabled = true;
+                resume.disabled = true;
+
+            }
+            
+        </script>
+    </body>
+</html>
